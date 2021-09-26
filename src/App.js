@@ -1,23 +1,107 @@
-import logo from './logo.svg';
 import './App.css';
+import { useCallback, useEffect, useRef } from 'react';
+import { AppBar, Toolbar, Typography, Container, Box, Drawer, List, ListItem, ListItemText, CssBaseline, Paper } from '@mui/material'
+import { useStore } from './store/Store'
+import { Person } from '@mui/icons-material';
+import styled from 'styled-components';
+import useSocket from './hooks/useSocket';
+
+const drawerWidth = 240;
+
+const MainVideo = styled.video`
+  height: 100%;
+  width: 100%;
+`
 
 function App() {
+  const videoPlayer = useRef(null);
+  const remoteVideoPlayer = useRef(null);
+  const [store] = useStore()
+  const [callUser] = useSocket(remoteVideoPlayer);
+  console.log(store)
+
+  useEffect(() => {
+    if (remoteVideoPlayer && store.peerConnection) {
+      store.peerConnection.ontrack = ({ streams: [stream] }) => {
+        remoteVideoPlayer.current.srcObject = stream;
+      };
+    }
+  }, [remoteVideoPlayer, store.peerConnection])
+
+  const setVideoStream = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+       videoPlayer.current.srcObject = stream;
+      //  console.log('adding track to', store.peerConnection)
+      //  stream.getTracks().forEach(track => pc.addTrack ? pc.addTrack(track, stream) : console.log('cant add track!'))
+    } catch (error) {
+      console.warn(error.message);
+    }
+  }, [videoPlayer])
+
+  useEffect(() => {
+    if (videoPlayer && videoPlayer.current) {
+      setVideoStream();
+    }
+  }, [videoPlayer, setVideoStream])
+
+  //  useEffect(() => {
+  //     return () => {
+  //       store.socket && store.socket.off("answer-made")
+  //     }
+  //  })
+
+
+  // useEffect(() => {
+  //   fetch('https://at-oku.herokuapp.com/').then(el => el.json()).then(console.log)
+  // })
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline/>
+        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+          <Toolbar>
+            <Typography variant="h6" noWrap component="div">
+              VIDEO CHAT APP
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <Toolbar />
+          <Box sx={{ overflow: 'auto' }}>
+            <Typography variant="h5">Online users:</Typography>
+            <List>
+              {store.users.map((user, index) => (
+                <ListItem button key={user} onClick={() => callUser(user)} >
+                  <Person />
+                  <ListItemText primary={user} />
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <Toolbar />
+          <Container style={{position: 'relative'}}>
+            <MainVideo autoPlay muted ref={remoteVideoPlayer} >
+              
+            </MainVideo>
+            <Box sx={{width: 220, height: 200, position: 'absolute', right: 0, bottom: 0}}>
+              <Paper elevation={5}>
+                <video autoPlay muted ref={videoPlayer} style={{height: '100%', width: '100%', padding: 5}} />
+              </Paper>
+            </Box>
+          </Container>
+        </Box>
+      </Box>
+      
     </div>
   );
 }
