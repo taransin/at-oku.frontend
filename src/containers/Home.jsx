@@ -1,6 +1,6 @@
 import { AccountCircle } from '@mui/icons-material';
-import { Box, Button, Container, TextField, Typography } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
 import { setField } from '../store/reducer';
 import { useStore } from '../store/Store';
@@ -9,7 +9,7 @@ import { useStore } from '../store/Store';
 
 const Home = () => {
     const history = useHistory();
-    const [store, dispatch] = useStore();
+    const [, dispatch] = useStore();
     const [username, setUsername] = useState('');
 
     const onClick = () => {

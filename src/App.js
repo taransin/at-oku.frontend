@@ -2,7 +2,7 @@ import './App.css'
 import React from 'react';
 import { useStore } from './store/Store'
 
-import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Home, VideoChat } from './containers';
 
 const SafeRoute = (props) => {
@@ -13,7 +13,6 @@ const SafeRoute = (props) => {
 
 
 function App() {
-  const [store] = useStore();
   return (
     <BrowserRouter>
       <Switch>
