@@ -14,11 +14,10 @@ const SafeRoute = (props) => {
 
 function App() {
   const [store] = useStore();
-
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" component={Home} />
+        <Route exact path="/" component={Home} />
         <SafeRoute path="/video" component={VideoChat} />
       </Switch>
     </BrowserRouter>
