@@ -17,6 +17,7 @@ import styled from 'styled-components';
 import useSocket from '../hooks/useSocket';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';
+import { useLocalization } from '@fluent/react';
 
 const drawerWidth = 240;
 
@@ -26,6 +27,7 @@ const MainVideo = styled.video`
 `;
 
 function VideoChat() {
+  const { l10n } = useLocalization();
   const videoPlayer = useRef<HTMLVideoElement>(null);
   const remoteVideoPlayer = useRef<HTMLVideoElement>(null);
 
@@ -95,7 +97,9 @@ function VideoChat() {
         >
           <Toolbar />
           <Box sx={{ overflow: 'auto' }}>
-            <Typography variant="h5">Online users:</Typography>
+            <Typography variant="h5">
+              {l10n.getString('online-users')}:
+            </Typography>
             <List>
               {users.map((user, index) => (
                 <ListItem

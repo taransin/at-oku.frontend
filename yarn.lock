@@ -1294,6 +1294,30 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fluent/bundle@^0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@fluent/bundle/-/bundle-0.17.0.tgz#02f51f2ca8b85f80dd6b07df93e7ba421b124d52"
+  integrity sha512-G/9wDCTKGPyHgw4ON3vBlLUIBBGG7vq8ytExqh4uwTfoeOfQ5VU5Xr6F+UV8B72k9P9S72GqFTXvqjS48pBVpg==
+
+"@fluent/langneg@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@fluent/langneg/-/langneg-0.6.0.tgz#4161dbcfdecd2451c77c4852e983c057dfefe380"
+  integrity sha512-tvfjaYU4nQxdY7rQ3LVBcBJ6INAlkv0xZjlDQ3Pm1AxEJimO3M9iABr/+fF5Pu2T8m4cHLaQzkekeMh/rq/61A==
+
+"@fluent/react@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@fluent/react/-/react-0.14.0.tgz#a2c8724833fd9c462f334b61f0e06830ac98ae40"
+  integrity sha512-XYiEajY4GM9GJGlldrjCJvLLAj+5T/otRDNRgGX+23UKYdzVrjyp1kcO5akG+12Wk5yxspmZdOmqwbru6xxZmw==
+  dependencies:
+    "@fluent/sequence" "^0.7.0"
+    cached-iterable "^0.3.0"
+    prop-types "^15.7.2"
+
+"@fluent/sequence@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@fluent/sequence/-/sequence-0.7.0.tgz#2fbfa872e87293cca209ba4a586d1a8fbaa2e5c4"
+  integrity sha512-aH1xMwX8DFvKOQSKUKpB3zMsnJ2rRKt7MajLNnx/r3V3DWDo2nzEfm21d7UyOgwEckPIjPmhxdW1MEmsGUxYIw==
+
 "@gar/promisify@^1.0.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
@@ -3364,6 +3388,11 @@ cache-base@^1.0.1:
     to-object-path "^0.3.0"
     union-value "^1.0.0"
     unset-value "^1.0.0"
+
+cached-iterable@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/cached-iterable/-/cached-iterable-0.3.0.tgz#2618204549e9c5dd102102a6e7e50af6adb77df8"
+  integrity sha512-MDqM6TpBVebZD4UDtmlFp8EjVtRcsB6xt9aRdWymjk0fWVUUGgmt/V7o0H0gkI2Tkvv8B0ucjidZm4mLosdlWw==
 
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"
@@ -11965,6 +11994,11 @@ yargs@^15.4.1:
     which-module "^2.0.0"
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
+
+yarn@^1.22.11:
+  version "1.22.11"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.11.tgz#d0104043e7349046e0e2aec977c24be106925ed6"
+  integrity sha512-AWje4bzqO9RUn3sdnM5N8n4ZJ0BqCc/kqFJvpOI5/EVkINXui0yuvU7NDCEF//+WaxHuNay2uOHxA4+tq1P3cg==
 
 yeast@0.1.2:
   version "0.1.2"
