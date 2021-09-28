@@ -23,33 +23,34 @@ const useSocket = (remoteVideoPlayer) => {
   const callUser = useCallback(async (socketId, makeNewConnection = true) => {
     let newPeerConnection = peerConnection;
     if (makeNewConnection) {
-      dispatch(setField({calling: socketId }))
+      dispatch(setField({ calling: socketId }))
       newPeerConnection = new window.RTCPeerConnection()
       newPeerConnection.onicecandidate = event => {
-        socket.emit('candidate', { to: socketId, candidate: event.candidate 
+        socket.emit('candidate', {
+          to: socketId, candidate: event.candidate
         })
       }
-    } 
+    }
     // const newPeerConnection = new window.RTCPeerConnection();
     // const newPeerConnection = peerConnection;
     dispatch(setField({ peerConnection: newPeerConnection }));
     await addMediaTracks(newPeerConnection);
-    
-    
+
+
     const offer = await newPeerConnection.createOffer();
     await newPeerConnection.setLocalDescription(new RTCSessionDescription(offer));
-    
+
     socket.emit("call-user", {
       offer,
       to: socketId
     });
-   }, [addMediaTracks, peerConnection, socket, dispatch]);
+  }, [addMediaTracks, peerConnection, socket, dispatch]);
 
   useEffect(() => {
     if (socket) {
       socket.on('update-user-list', (event) => dispatch(setUsers(event.users)))
       socket.on('remove-user', ({ socketId }) => dispatch(removeUser(socketId)));
-  
+
       socket.on("call-made", async data => {
         const newPeerConnection = new window.RTCPeerConnection();
         newPeerConnection.onicecandidate = event => {
@@ -64,32 +65,32 @@ const useSocket = (remoteVideoPlayer) => {
         );
         const answer = await newPeerConnection.createAnswer();
         await newPeerConnection.setLocalDescription(new RTCSessionDescription(answer));
-       
+
         socket.emit("make-answer", {
           answer,
           to: data.socket
         });
       });
 
-    socket.on("answer-made", async data => {
-      await peerConnection.setRemoteDescription(
-        new RTCSessionDescription(data.answer)
-      );
+      socket.on("answer-made", async data => {
+        await peerConnection.setRemoteDescription(
+          new RTCSessionDescription(data.answer)
+        );
 
-      await addMediaTracks(peerConnection)
-      if (!calling) {
-        callUser(data.socket, false);
-        setCalling(true)
-      }
-     });
+        await addMediaTracks(peerConnection)
+        if (!calling) {
+          callUser(data.socket, false);
+          setCalling(true)
+        }
+      });
 
 
 
-    socket.on("candidate",  data => {
-      if (peerConnection && data.candidate) {
-        peerConnection.addIceCandidate(data.candidate).catch(console.error);
-      }
-    });
+      socket.on("candidate", data => {
+        if (peerConnection && data.candidate) {
+          peerConnection.addIceCandidate(data.candidate).catch(console.error);
+        }
+      });
 
 
 
@@ -104,7 +105,7 @@ const useSocket = (remoteVideoPlayer) => {
       }
     }
   }, [socket, peerConnection, dispatch, calling, remoteVideoPlayer, callUser, addMediaTracks])
-  
+
   return [callUser]
 }
 
