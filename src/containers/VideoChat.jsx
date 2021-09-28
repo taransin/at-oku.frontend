@@ -65,7 +65,7 @@ function VideoChat() {
             <Typography variant="h5">Online users:</Typography>
             <List>
               {store.users.map((user, index) => (
-                <ListItem button key={user.id} onClick={() => callUser(user.username)} >
+                <ListItem button key={user.id} onClick={() => callUser(user.id)} >
                   <Person />
                   <ListItemText primary={user.username} />
                 </ListItem>
