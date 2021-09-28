@@ -72,7 +72,7 @@ function VideoChat() {
 
   return (
     <div className="App">
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', flexGrow: 1 }}>
         <CssBaseline />
         <AppBar
           position="fixed"
@@ -93,20 +93,17 @@ function VideoChat() {
               width: drawerWidth,
               boxSizing: 'border-box',
             },
+            marginTop: '64px',
           }}
         >
           <Toolbar />
-          <Box sx={{ overflow: 'auto' }}>
+          <Box sx={{ overflow: 'auto', padding: '15px' }}>
             <Typography variant="h5">
               {l10n.getString('online-users')}:
             </Typography>
             <List>
-              {users.map((user, index) => (
-                <ListItem
-                  button
-                  key={user.id}
-                  onClick={() => callUser(user.id)}
-                >
+              {users.map((user, key) => (
+                <ListItem button key={key} onClick={() => callUser(user.id)}>
                   <Person />
                   <ListItemText primary={user.username} />
                 </ListItem>
@@ -114,9 +111,11 @@ function VideoChat() {
             </List>
           </Box>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: '64px' }}>
           <Toolbar />
-          <Container style={{ position: 'relative' }}>
+          <Container
+            style={{ position: 'relative', display: 'flex', flexGrow: 1 }}
+          >
             <MainVideo autoPlay muted ref={remoteVideoPlayer} />
             <Box
               sx={{
