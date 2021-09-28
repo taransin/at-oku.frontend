@@ -1,5 +1,4 @@
-import React, { Children, useEffect, useState, ReactNode } from 'react';
-
+import { Children, useEffect, useState, ReactNode } from 'react';
 import { negotiateLanguages } from '@fluent/langneg';
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 import { ReactLocalization, LocalizationProvider } from '@fluent/react';

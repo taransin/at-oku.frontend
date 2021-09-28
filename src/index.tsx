@@ -9,11 +9,11 @@ import { AppLocalizationProvider } from './locale/l10n';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <AppLocalizationProvider>
+    <AppLocalizationProvider>
+      <Provider store={store}>
         <App />
-      </AppLocalizationProvider>
-    </Provider>
+      </Provider>
+    </AppLocalizationProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
