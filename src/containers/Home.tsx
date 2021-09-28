@@ -12,7 +12,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const [username, updateUsername] = useState('');
 
-  const onClick = () => {
+  const login = () => {
     dispatch(setUsername(username));
     history.push('/video');
   };
@@ -29,22 +29,26 @@ const Home = () => {
         flexDirection: 'column',
       }}
     >
-      <Typography variant="h1">{l10n.getString('welcome')}</Typography>
-      <Box sx={{ display: 'flex', alignItems: 'flex-end', maxWidth: '500px' }}>
-        <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-        <TextField
-          value={username}
-          onChange={(e) => updateUsername(e.target.value)}
-          label={l10n.getString('username')}
-          variant="standard"
-          fullWidth
-        />
-      </Box>
-      <Box sx={{ marginTop: '15px' }}>
-        <Button variant="contained" onClick={onClick}>
-          {l10n.getString('login')}
-        </Button>
-      </Box>
+      <form onSubmit={login}>
+        <Typography variant="h1">{l10n.getString('welcome')}</Typography>
+        <Box
+          sx={{ display: 'flex', alignItems: 'flex-end', maxWidth: '500px' }}
+        >
+          <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+          <TextField
+            value={username}
+            onChange={(e) => updateUsername(e.target.value)}
+            label={l10n.getString('username')}
+            variant="standard"
+            fullWidth
+          />
+        </Box>
+        <Box sx={{ marginTop: '15px' }}>
+          <Button variant="contained" onClick={login}>
+            {l10n.getString('login')}
+          </Button>
+        </Box>
+      </form>
     </Box>
   );
 };
