@@ -20,5 +20,6 @@
     "noImplicitThis": true,
     "strictNullChecks": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "files": ["./src/locale/translations/index.d.ts"]
 }

@@ -2,6 +2,8 @@ import { Children, useEffect, useState, ReactNode } from 'react';
 import { negotiateLanguages } from '@fluent/langneg';
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 import { ReactLocalization, LocalizationProvider } from '@fluent/react';
+import en from './translations/en-US.ftl';
+import it from './translations/it.ftl';
 
 const DEFAULT_LOCALE = 'en-US';
 const AVAILABLE_LOCALES = {
@@ -9,8 +11,6 @@ const AVAILABLE_LOCALES = {
   it: 'Italian',
 };
 
-const en = require('./translations/en-US.ftl');
-const it = require('./translations/it.ftl');
 const ftl = {
   'en-US': en,
   it: it,

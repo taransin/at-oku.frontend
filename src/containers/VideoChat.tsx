@@ -80,7 +80,7 @@ function VideoChat() {
         >
           <Toolbar>
             <Typography variant="h6" noWrap component="div">
-              VIDEO CHAT APP
+              @OKU
             </Typography>
           </Toolbar>
         </AppBar>
