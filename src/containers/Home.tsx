@@ -20,35 +20,52 @@ const Home = () => {
   return (
     <Box
       sx={{
-        background: '#00c8c8',
+        background: '#4db6ac',
         color: 'white',
         height: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
+        flexGrow: 1,
       }}
     >
-      <form onSubmit={login}>
-        <Typography variant="h1">{l10n.getString('welcome')}</Typography>
-        <Box
-          sx={{ display: 'flex', alignItems: 'flex-end', maxWidth: '500px' }}
-        >
-          <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+      <Typography variant="h1">{l10n.getString('welcome')}</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          maxWidth: '531px',
+          width: '100%',
+          margin: '30px 0 0 -31px',
+        }}
+      >
+        <AccountCircle sx={{ color: 'white', mr: 1, my: 0.5 }} />
+        <form onSubmit={login} style={{ width: '100%' }}>
           <TextField
+            sx={{ color: 'white' }}
             value={username}
             onChange={(e) => updateUsername(e.target.value)}
             label={l10n.getString('username')}
-            variant="standard"
+            variant="filled"
             fullWidth
           />
-        </Box>
-        <Box sx={{ marginTop: '15px' }}>
-          <Button variant="contained" onClick={login}>
-            {l10n.getString('login')}
-          </Button>
-        </Box>
-      </form>
+        </form>
+      </Box>
+      <Box
+        sx={{
+          marginTop: '15px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          maxWidth: '500px',
+          width: '100%',
+        }}
+      >
+        <Button variant="contained" onClick={login} fullWidth>
+          {l10n.getString('login')}
+        </Button>
+      </Box>
     </Box>
   );
 };
