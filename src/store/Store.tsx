@@ -1,14 +1,13 @@
-import React from 'react';
+import { configureStore } from '@reduxjs/toolkit'
+import applicationReducer from './reducer'
 
-const Store = React.createContext();
-Store.displayName = 'Store';
+export const store = configureStore({
+  reducer: {
+    application: applicationReducer
+  },
+})
 
-export const useStore = () => React.useContext(Store);
-
-export const StoreProvider = ({ children, initialState, reducer }) => {
-  const [globalState, dispatch] = React.useReducer(reducer, initialState);
-
-  return (
-    <Store.Provider value={[globalState, dispatch]}>{children}</Store.Provider>
-  );
-};
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof store.getState>
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch

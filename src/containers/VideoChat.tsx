@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, VideoHTMLAttributes } from 'react';
 import { AppBar, Toolbar, Typography, Container, Box, Drawer, List, ListItem, ListItemText, CssBaseline, Paper } from '@mui/material'
-import { useStore } from '../store/Store'
 import { Person } from '@mui/icons-material';
 import styled from 'styled-components';
 import useSocket from '../hooks/useSocket';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store/store';
 
 const drawerWidth = 240;
 
@@ -13,24 +14,35 @@ const MainVideo = styled.video`
 `
 
 function VideoChat() {
-  const videoPlayer = useRef(null);
-  const remoteVideoPlayer = useRef(null);
-  const [store] = useStore()
+  const videoPlayer = useRef<HTMLVideoElement>(null);
+  const remoteVideoPlayer = useRef<HTMLVideoElement>(null);
+  
   const [callUser] = useSocket(remoteVideoPlayer);
 
+  const [peerConnection, users] = useSelector((state: RootState) => [
+    state.application.peerConnection,
+    state.application.users
+  ]);
+
   useEffect(() => {
-    if (remoteVideoPlayer && store.peerConnection) {
-      store.peerConnection.ontrack = ({ streams: [stream] }) => {
-        remoteVideoPlayer.current.srcObject = stream;
+    if (remoteVideoPlayer && peerConnection) {
+      peerConnection.ontrack = ({ streams: [stream] }) => {
+        const current = remoteVideoPlayer.current
+        if(current){
+          current.srcObject = stream;
+        }
       };
     }
-  }, [remoteVideoPlayer, store.peerConnection])
+  }, [remoteVideoPlayer, peerConnection])
 
   const setVideoStream = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-       videoPlayer.current.srcObject = stream;
-    } catch (error) {
+       const current = videoPlayer.current
+       if(current){
+         current.srcObject = stream;
+       }
+    } catch (error: any) {
       console.warn(error.message);
     }
   }, [videoPlayer])
@@ -64,7 +76,7 @@ function VideoChat() {
           <Box sx={{ overflow: 'auto' }}>
             <Typography variant="h5">Online users:</Typography>
             <List>
-              {store.users.map((user, index) => (
+              {users.map((user, index) => (
                 <ListItem button key={user.id} onClick={() => callUser(user.id)} >
                   <Person />
                   <ListItemText primary={user.username} />
@@ -76,9 +88,7 @@ function VideoChat() {
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           <Container style={{position: 'relative'}}>
-            <MainVideo autoPlay muted ref={remoteVideoPlayer} >
-              
-            </MainVideo>
+            <MainVideo autoPlay muted ref={remoteVideoPlayer} />
             <Box sx={{width: 220, height: 200, position: 'absolute', right: 0, bottom: 0}}>
               <Paper elevation={5}>
                 <video autoPlay muted ref={videoPlayer} style={{height: '100%', width: '100%', padding: 5}} />
