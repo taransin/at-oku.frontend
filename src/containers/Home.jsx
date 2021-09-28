@@ -2,7 +2,7 @@ import { AccountCircle } from '@mui/icons-material';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom'
-import { setField } from '../store/reducer';
+import { setUsername as setUsernameAction } from '../store/reducer';
 import { useStore } from '../store/Store';
 
 
@@ -13,7 +13,7 @@ const Home = () => {
     const [username, setUsername] = useState('');
 
     const onClick = () => {
-      dispatch(setField({ username }));
+      dispatch(setUsernameAction(username));
       history.push('/video')
     } 
 

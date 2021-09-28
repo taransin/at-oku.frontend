@@ -17,7 +17,6 @@ function VideoChat() {
   const remoteVideoPlayer = useRef(null);
   const [store] = useStore()
   const [callUser] = useSocket(remoteVideoPlayer);
-  console.log(store)
 
   useEffect(() => {
     if (remoteVideoPlayer && store.peerConnection) {
@@ -31,8 +30,6 @@ function VideoChat() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
        videoPlayer.current.srcObject = stream;
-      //  console.log('adding track to', store.peerConnection)
-      //  stream.getTracks().forEach(track => pc.addTrack ? pc.addTrack(track, stream) : console.log('cant add track!'))
     } catch (error) {
       console.warn(error.message);
     }
@@ -44,16 +41,6 @@ function VideoChat() {
     }
   }, [videoPlayer, setVideoStream])
 
-  //  useEffect(() => {
-  //     return () => {
-  //       store.socket && store.socket.off("answer-made")
-  //     }
-  //  })
-
-
-  // useEffect(() => {
-  //   fetch('https://at-oku.herokuapp.com/').then(el => el.json()).then(console.log)
-  // })
   return (
     <div className="App">
       <Box sx={{ display: 'flex' }}>
@@ -78,9 +65,9 @@ function VideoChat() {
             <Typography variant="h5">Online users:</Typography>
             <List>
               {store.users.map((user, index) => (
-                <ListItem button key={user} onClick={() => callUser(user)} >
+                <ListItem button key={user.id} onClick={() => callUser(user.username)} >
                   <Person />
-                  <ListItemText primary={user} />
+                  <ListItemText primary={user.username} />
                 </ListItem>
               ))}
             </List>

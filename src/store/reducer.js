@@ -4,6 +4,7 @@ export const SET_USERS = 'APP/SET_USERS';
 export const REMOVE_USER = 'APP/REMOVE_USER';
 export const SET_SOCKET = 'APP/SET_SOCKET';
 export const SET_PEER_CONNECTION = 'APP/SET_PEER_CONNECTION';
+export const SET_USERNAME = 'APP/SET_USERNAME';
 
 
 export const SET_FIELD = 'APP/SET_FIELD'
@@ -24,9 +25,15 @@ export const setSocket = socket => ({
   type: SET_SOCKET,
   socket
 })
+
 export const setPeerConnection = peerConnection => ({
   type: SET_PEER_CONNECTION,
   peerConnection
+})
+
+export const setUsername = username => ({
+  type: SET_USERNAME,
+  username
 })
 
 export const setField = (fieldObject) => ({
@@ -37,9 +44,11 @@ export const setField = (fieldObject) => ({
 export const initialState = {
   users: [],
   // socket: io.connect('http://localhost:4000/'),
-  socket: io.connect('https://at-oku.herokuapp.com/'),
+  socket: null,
   peerConnection: null
 };
+
+const SOCKET_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4000/' : 'https://at-oku.herokuapp.com/';
 
 export const reducer = (state = initialState, action) => {
   switch(action.type) {
@@ -51,7 +60,7 @@ export const reducer = (state = initialState, action) => {
     case REMOVE_USER:
       return {
         ...state,
-        users: state.users.filter(user => user !== action.user)
+        users: state.users.filter(user => user.id !== action.user)
       };
     case SET_SOCKET:
       return {
@@ -63,6 +72,12 @@ export const reducer = (state = initialState, action) => {
         ...state,
         peerConnection: action.peerConnection
       };
+    case SET_USERNAME:
+      return {
+        ...state,
+        username: action.username,
+        socket: io.connect(SOCKET_URL, { query: { username: action.username }})
+      }
     case SET_FIELD:
       const { type, ...fields } = action;
       return {
