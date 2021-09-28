@@ -16,9 +16,10 @@ const SafeRoute = (props: any) => {
 function App() {
   const customTheme = createTheme({
     palette: {
+      mode: 'dark',
       primary: {
         light: '#afa',
-        main: '#99d5cf',
+        main: '#99e5df',
         dark: '#afa',
         contrastText: '#fff',
       },
