@@ -18,6 +18,7 @@ import useSocket from '../hooks/useSocket';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';
 import { useLocalization } from '@fluent/react';
+import { Rnd } from 'react-rnd';
 
 const drawerWidth = 240;
 
@@ -111,30 +112,59 @@ function VideoChat() {
             </List>
           </Box>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: '64px' }}>
+        <Box
+          component="main"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            flexGrow: 1,
+            p: 3,
+            marginTop: '64px',
+          }}
+        >
           <Toolbar />
           <Container
-            style={{ position: 'relative', display: 'flex', flexGrow: 1 }}
+            style={{
+              position: 'relative',
+              display: 'flex',
+              flexGrow: 1,
+              margin: '0',
+              width: '100%',
+              maxWidth: '100%',
+              background: '#111',
+            }}
           >
             <MainVideo autoPlay muted ref={remoteVideoPlayer} />
-            <Box
-              sx={{
+            <Rnd
+              default={{
+                x: 150,
+                y: 205,
                 width: 220,
-                height: 200,
-                position: 'absolute',
-                right: 0,
-                bottom: 0,
+                height: 220,
               }}
+              minWidth={128}
+              minHeight={128}
+              bounds="parent"
             >
-              <Paper elevation={5}>
-                <video
-                  autoPlay
-                  muted
-                  ref={videoPlayer}
-                  style={{ height: '100%', width: '100%', padding: 5 }}
-                />
-              </Paper>
-            </Box>
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  right: 0,
+                  bottom: 0,
+                }}
+              >
+                <Paper elevation={5}>
+                  <video
+                    autoPlay
+                    muted
+                    ref={videoPlayer}
+                    style={{ height: '100%', width: '100%', padding: 5 }}
+                  />
+                </Paper>
+              </Box>
+            </Rnd>
           </Container>
         </Box>
       </Box>
