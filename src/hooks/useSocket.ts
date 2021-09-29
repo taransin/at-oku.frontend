@@ -1,5 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { WebSocketContext } from 'src/providers/SocketProvider';
 import { RootState } from 'src/store/store';
 import { removeUser, setField, setUsers } from '../store/reducer';
 
@@ -7,10 +8,11 @@ const useSocket = (remoteVideoPlayer) => {
   const dispatch = useDispatch();
   const [calling, setCalling] = useState<boolean>(false)
 
-  const [peerConnection, socket] = useSelector((state: RootState) => [
+  const [peerConnection] = useSelector((state: RootState) => [
     state.application.peerConnection,
-    state.application.socket
   ]);
+
+  const socket = useContext(WebSocketContext);
 
   const addMediaTracks = useCallback(async (peerConnection) => {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })

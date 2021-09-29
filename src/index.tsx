@@ -6,12 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { AppLocalizationProvider } from './locale/l10n';
+import { SocketProvider } from './providers/SocketProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <AppLocalizationProvider>
       <Provider store={store}>
-        <App />
+        <SocketProvider>
+          <App />
+        </SocketProvider>
       </Provider>
     </AppLocalizationProvider>
   </React.StrictMode>,
