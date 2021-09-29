@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ApplicationState {
   users: any[];
-  peerConnection: any;
+  // peerConnection: any;
   username?: string;
 }
 
 const initialState: ApplicationState = {
   users: [],
-  peerConnection: null,
+  // peerConnection: null,
   username: undefined,
 };
 
@@ -23,12 +23,15 @@ export const applicationSlice = createSlice({
       // immutable state based off those changes
       state.users = action.payload;
     },
+    updateUsers: (state, action: PayloadAction<any[]>) => {
+      state.users = [...state.users, ...action.payload];
+    },
     removeUser: (state, action: PayloadAction<any>) => {
       state.users = state.users.filter((user) => user.id !== action.payload);
     },
-    setPeerConnection: (state, action: PayloadAction<any>) => {
-      state.peerConnection = action.payload;
-    },
+    // setPeerConnection: (state, action: PayloadAction<any>) => {
+    //   state.peerConnection = action.payload;
+    // },
     setUsername: (state, action: PayloadAction<string>) => {
       const username = action.payload;
       state.username = username;
@@ -43,9 +46,10 @@ export const applicationSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setUsers,
+  updateUsers,
   removeUser,
   setUsername,
-  setPeerConnection,
+  // setPeerConnection,
   setField,
 } = applicationSlice.actions;
 

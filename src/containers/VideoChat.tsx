@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';
 import { useLocalization } from '@fluent/react';
 import { Rnd } from 'react-rnd';
+import { SocketContext } from 'src/providers/SocketProvider';
 
 const drawerWidth = 240;
 
@@ -32,12 +33,9 @@ function VideoChat() {
   const videoPlayer = useRef<HTMLVideoElement>(null);
   const remoteVideoPlayer = useRef<HTMLVideoElement>(null);
 
-  const [callUser] = useSocket(remoteVideoPlayer);
-
-  const [peerConnection, users] = useSelector((state: RootState) => [
-    state.application.peerConnection,
-    state.application.users,
-  ]);
+  const [users] = useSelector((state: RootState) => [state.application.users]);
+  const { peerConnection, socket } = useContext(SocketContext);
+  const [callUser] = useSocket(remoteVideoPlayer, peerConnection, socket);
 
   useEffect(() => {
     if (remoteVideoPlayer && peerConnection) {

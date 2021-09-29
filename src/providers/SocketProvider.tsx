@@ -12,9 +12,17 @@ const SOCKET_URL =
     ? 'http://localhost:4000/'
     : 'https://at-oku.herokuapp.com/';
 
-export const WebSocketContext = React.createContext(
-  (io as any).connect(SOCKET_URL),
-);
+export const SocketContext = React.createContext<{
+  socket: any;
+  peerConnection?: RTCPeerConnection;
+  setPeerConnection: React.Dispatch<
+    React.SetStateAction<RTCPeerConnection | undefined>
+  >;
+}>({
+  socket: (io as any).connect(SOCKET_URL),
+  peerConnection: undefined,
+  setPeerConnection: () => {},
+});
 
 export const SocketProvider = (props: WebSocketProviderProps) => {
   const [username] = useSelector((state: RootState) => [
@@ -22,7 +30,8 @@ export const SocketProvider = (props: WebSocketProviderProps) => {
   ]);
 
   const [currentUsername, setCurrentUsername] = useState(username);
-  const [socket, setSocket] = useState(undefined);
+  const [socket, setSocket] = useState<any>(undefined);
+  const [peerConnection, setPeerConnection] = useState<RTCPeerConnection>();
 
   useEffect(() => {
     if (username !== currentUsername) {
@@ -35,8 +44,14 @@ export const SocketProvider = (props: WebSocketProviderProps) => {
   }, [username, currentUsername]);
 
   return (
-    <WebSocketContext.Provider value={socket}>
+    <SocketContext.Provider
+      value={{
+        socket,
+        peerConnection,
+        setPeerConnection,
+      }}
+    >
       {Children.only(props.children)}
-    </WebSocketContext.Provider>
+    </SocketContext.Provider>
   );
 };
