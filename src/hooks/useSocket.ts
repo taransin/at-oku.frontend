@@ -33,6 +33,9 @@ const useSocket = (remoteVideoPlayer, peerConnection, socket) => {
     new window.RTCPeerConnection({
       iceServers: [
         {
+          urls: 'stun:stun.l.google.com:19302',
+        },
+        {
           urls: TURN_SERVER_URL,
           credentialType: 'password',
           username: 'username',
