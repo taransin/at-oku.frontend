@@ -132,7 +132,7 @@ function VideoChat() {
               background: '#111',
             }}
           >
-            <MainVideo autoPlay muted ref={remoteVideoPlayer} />
+            <MainVideo autoPlay ref={remoteVideoPlayer} />
             <Rnd
               default={{
                 x: 150,
