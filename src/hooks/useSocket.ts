@@ -123,7 +123,8 @@ const useSocket = (remoteVideoPlayer, peerConnection, socket) => {
 
       socket.on('call-made', async (data) => {
         console.log('call-made >>>>>>> ', data);
-        const newPeerConnection = createNewRTCConnection();
+        let newPeerConnection = peerConnection;
+        if (!newPeerConnection) newPeerConnection = createNewRTCConnection();
         // newPeerConnection.onicecandidate = event => {
         //   socket.emit('candidate', { to: data.socket, candidate: event.candidate })
         // }
