@@ -1,16 +1,16 @@
 import { useCallback, useContext, useEffect, useRef } from 'react';
-import styled from 'styled-components';
 import useSocket from '../hooks/useSocket';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store/store';
 import { useLocalization } from '@fluent/react';
 import { Rnd } from 'react-rnd';
 import { SocketContext } from 'src/providers/SocketProvider';
+import { css } from '@emotion/react/macro';
 
-const MainVideo = styled.video`
-  height: 100%;
-  width: 100%;
-`;
+const MainVideo = css({
+  height: '100%',
+  width: '100%',
+});
 
 function VideoChat() {
   const { l10n } = useLocalization();
@@ -75,7 +75,7 @@ function VideoChat() {
         </div>
         <div>
           <div>
-            <MainVideo autoPlay ref={remoteVideoPlayer} />
+            <video className={MainVideo} autoPlay ref={remoteVideoPlayer} />
             <Rnd
               default={{
                 x: 150,

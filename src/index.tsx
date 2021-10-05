@@ -7,16 +7,28 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { AppLocalizationProvider } from './locale/l10n';
 import { SocketProvider } from './providers/SocketProvider';
+import { ThemeProvider } from '@emotion/react/macro';
+
+const theme = {
+  colors: {
+    text: '#EEEEEE',
+    accent: '#FFD369',
+    background: '#222831',
+    shade: '#393E46',
+  },
+};
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppLocalizationProvider>
-      <Provider store={store}>
-        <SocketProvider>
-          <App />
-        </SocketProvider>
-      </Provider>
-    </AppLocalizationProvider>
+    <ThemeProvider theme={theme}>
+      <AppLocalizationProvider>
+        <Provider store={store}>
+          <SocketProvider>
+            <App />
+          </SocketProvider>
+        </Provider>
+      </AppLocalizationProvider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );

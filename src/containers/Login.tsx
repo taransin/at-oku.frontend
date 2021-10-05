@@ -1,22 +1,29 @@
 import { useLocalization } from '@fluent/react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { setUsername } from 'src/store/reducer';
+import { useTheme } from '@emotion/react/macro';
+import { css } from '@emotion/react/macro';
+
+const Background = (theme) =>
+  css({
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: theme.colors.background,
+  });
 
 const Login = () => {
   const { l10n } = useLocalization();
-  const history = useHistory();
   const dispatch = useDispatch();
   const [username, updateUsername] = useState('');
+  const theme = useTheme();
 
   const login = () => {
     dispatch(setUsername(username));
-    history.push('/video');
   };
 
   return (
-    <div>
+    <div css={Background(theme)}>
       <h1>{l10n.getString('welcome')}</h1>
       <div>
         <form onSubmit={login} style={{ width: '100%' }}>
