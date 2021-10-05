@@ -1,18 +1,4 @@
 import { useCallback, useContext, useEffect, useRef } from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Container,
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  CssBaseline,
-  Paper,
-} from '@mui/material';
-import { Person } from '@mui/icons-material';
 import styled from 'styled-components';
 import useSocket from '../hooks/useSocket';
 import { useSelector } from 'react-redux';
@@ -20,8 +6,6 @@ import { RootState } from 'src/store/store';
 import { useLocalization } from '@fluent/react';
 import { Rnd } from 'react-rnd';
 import { SocketContext } from 'src/providers/SocketProvider';
-
-const drawerWidth = 240;
 
 const MainVideo = styled.video`
   height: 100%;
@@ -71,67 +55,26 @@ function VideoChat() {
 
   return (
     <div className="App">
-      <Box sx={{ display: 'flex', flexGrow: 1 }}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        >
-          <Toolbar>
-            <Typography variant="h6" noWrap component="div">
-              @OKU
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            [`& .MuiDrawer-paper`]: {
-              width: drawerWidth,
-              boxSizing: 'border-box',
-            },
-            marginTop: '64px',
-          }}
-        >
-          <Toolbar />
-          <Box sx={{ overflow: 'auto', padding: '15px' }}>
-            <Typography variant="h5">
-              {l10n.getString('online-users')}:
-            </Typography>
-            <List>
+      <div>
+        <div>
+          <div>
+            <h6>@OKU</h6>
+          </div>
+        </div>
+        <div>
+          <div>
+            <h5>{l10n.getString('online-users')}:</h5>
+            <ul>
               {users.map((user, key) => (
-                <ListItem button key={key} onClick={() => callUser(user.id)}>
-                  <Person />
-                  <ListItemText primary={user.username} />
-                </ListItem>
+                <li key={key} onClick={() => callUser(user.id)}>
+                  <p>{user.username}</p>
+                </li>
               ))}
-            </List>
-          </Box>
-        </Drawer>
-        <Box
-          component="main"
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            flexGrow: 1,
-            p: 3,
-            marginTop: '64px',
-          }}
-        >
-          <Toolbar />
-          <Container
-            style={{
-              position: 'relative',
-              display: 'flex',
-              flexGrow: 1,
-              margin: '0',
-              width: '100%',
-              maxWidth: '100%',
-              background: '#111',
-            }}
-          >
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div>
             <MainVideo autoPlay ref={remoteVideoPlayer} />
             <Rnd
               default={{
@@ -144,28 +87,20 @@ function VideoChat() {
               minHeight={128}
               bounds="parent"
             >
-              <Box
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  position: 'absolute',
-                  right: 0,
-                  bottom: 0,
-                }}
-              >
-                <Paper elevation={5}>
+              <div>
+                <div>
                   <video
                     autoPlay
                     muted
                     ref={videoPlayer}
                     style={{ height: '100%', width: '100%', padding: 5 }}
                   />
-                </Paper>
-              </Box>
+                </div>
+              </div>
             </Rnd>
-          </Container>
-        </Box>
-      </Box>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
