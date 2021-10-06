@@ -3,8 +3,11 @@ const main = {
         text: '#EEEEEE',
         textOnAccent: '#393E46',
         accent: '#FFD369',
-        background: '#222831',
-        shade: '#393E46',
+        background: {
+            dark: '#222831',
+            medium: '#2e3238',
+            light: '#393E46',
+        },
     },
 }
 

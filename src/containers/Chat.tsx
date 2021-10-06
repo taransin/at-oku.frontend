@@ -1,117 +1,96 @@
-import { useCallback, useContext, useEffect, useRef } from 'react';
-import useSocket from '../hooks/useSocket';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store/store';
-import { useLocalization } from '@fluent/react';
+import { RefObject, useCallback, useEffect } from 'react';
 import { Rnd } from 'react-rnd';
-import { SocketContext } from 'src/providers/SocketProvider';
 import styled from 'styled-components';
 
-const StyledChat = styled.div({
-  height: '100%',
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-});
-const StyledMainVideo = styled.video(
+const StyledChat = styled.div(
+  {
+    display: 'flex',
+    flexGrow: 1,
+    flexDirection: 'column',
+    padding: 15,
+  },
+  ({ theme }) => ({
+    background: theme.colors.background.dark,
+  }),
+);
+
+const StyledRemoteCamera = styled.video(
   {
     height: '100%',
     width: '100%',
   },
   ({ theme }) => ({
-    background: theme.colors.shade,
+    background: theme.colors.background.medium,
   }),
 );
 
-function Chat() {
-  const { l10n } = useLocalization();
-  const videoPlayer = useRef<HTMLVideoElement>(null);
-  const remoteVideoPlayer = useRef<HTMLVideoElement>(null);
+const StyledLocalCamera = styled(Rnd)(
+  {
+    display: 'flex!important',
+    justifyContent: 'center!important',
+    alignItems: 'center!important',
+    padding: 4,
+  },
+  ({ theme }) => ({
+    background: theme.colors.background.light,
+    boxShadow: `inset 0 0 0 2px ${theme.colors.accent}`,
+  }),
+);
 
-  const [users] = useSelector((state: RootState) => [state.application.users]);
-  const { peerConnection, socket } = useContext(SocketContext);
-  const [callUser] = useSocket(remoteVideoPlayer, peerConnection, socket);
+interface ChatProps {
+  localCamera: RefObject<HTMLVideoElement>;
+  remoteCamera: RefObject<HTMLVideoElement>;
+}
 
-  useEffect(() => {
-    if (remoteVideoPlayer && peerConnection) {
-      peerConnection.ontrack = ({ streams: [stream] }) => {
-        const current = remoteVideoPlayer.current;
-        if (current) {
-          current.srcObject = stream;
-        }
-      };
-    }
-  }, [remoteVideoPlayer, peerConnection]);
-
+const Chat = ({ localCamera, remoteCamera }: ChatProps) => {
   const setVideoStream = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
       });
-      const current = videoPlayer.current;
+      const current = localCamera.current;
       if (current) {
         current.srcObject = stream;
       }
     } catch (error: any) {
       console.warn(error.message);
     }
-  }, [videoPlayer]);
+  }, [localCamera]);
 
   useEffect(() => {
-    if (videoPlayer && videoPlayer.current) {
+    if (localCamera && localCamera.current) {
       setVideoStream();
     }
-  }, [videoPlayer, setVideoStream]);
+  }, [localCamera, setVideoStream]);
 
   return (
     <StyledChat>
-      <div>
-        <div>
-          <h6>@OKU</h6>
-        </div>
-      </div>
-      <div>
-        <div>
-          <h5>{l10n.getString('online-users')}:</h5>
-          <ul>
-            {users.map((user, key) => (
-              <li key={key} onClick={() => callUser(user.id)}>
-                <p>{user.username}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div>
-        <div>
-          <StyledMainVideo autoPlay ref={remoteVideoPlayer} />
-          <Rnd
-            default={{
-              x: 150,
-              y: 205,
-              width: 220,
-              height: 220,
-            }}
-            minWidth={128}
-            minHeight={128}
-            bounds="parent"
-          >
-            <div>
-              <div>
-                <video
-                  autoPlay
-                  muted
-                  ref={videoPlayer}
-                  style={{ height: '100%', width: '100%', padding: 5 }}
-                />
-              </div>
-            </div>
-          </Rnd>
-        </div>
-      </div>
+      <StyledRemoteCamera autoPlay ref={remoteCamera} />
+      <StyledLocalCamera
+        default={{
+          x: 150,
+          y: 205,
+          width: 220,
+          height: 220,
+        }}
+        minWidth={128}
+        minHeight={128}
+        bounds="parent"
+      >
+        <video
+          autoPlay
+          muted
+          ref={localCamera}
+          style={{
+            display: 'flex',
+            maxHeight: '100%',
+            maxWidth: '100%',
+          }}
+        />
+      </StyledLocalCamera>
     </StyledChat>
   );
-}
+};
 
 export default Chat;
