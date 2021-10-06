@@ -1,15 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { fetchTheme } from 'src/hooks/useTheme';
+import { DefaultTheme } from 'styled-components';
 
 export interface ApplicationState {
   users: any[];
   // peerConnection: any;
   username?: string;
+  theme: DefaultTheme;
 }
 
 const initialState: ApplicationState = {
   users: [],
   // peerConnection: null,
   username: undefined,
+  theme: fetchTheme(),
 };
 
 export const applicationSlice = createSlice({
@@ -40,6 +44,9 @@ export const applicationSlice = createSlice({
       const { type, ...fields } = action;
       state = { ...state, ...fields };
     },
+    updateTheme: (state, action: PayloadAction<DefaultTheme>) => {
+      state.theme = action.payload;
+    },
   },
 });
 
@@ -51,6 +58,7 @@ export const {
   setUsername,
   // setPeerConnection,
   setField,
+  updateTheme,
 } = applicationSlice.actions;
 
 export default applicationSlice.reducer;

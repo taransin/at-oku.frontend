@@ -1,4 +1,4 @@
-const main = {
+const theme = {
     colors: {
         text: '#EEEEEE',
         textOnAccent: '#393E46',
@@ -11,4 +11,4 @@ const main = {
     },
 }
 
-export default main;
+export default theme;

@@ -32,7 +32,7 @@ const StyledLocalCamera = styled(Rnd)(
     padding: 4,
   },
   ({ theme }) => ({
-    background: theme.colors.background.light,
+    background: theme.colors.background.dark,
     boxShadow: `inset 0 0 0 2px ${theme.colors.accent}`,
   }),
 );

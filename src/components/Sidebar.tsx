@@ -2,6 +2,7 @@ import { useLocalization } from '@fluent/react';
 import { FC, RefObject, useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import useSocket from 'src/hooks/useSocket';
+import useTheme from 'src/hooks/useTheme';
 import { SocketContext } from 'src/providers/SocketProvider';
 import { usersSelector } from 'src/store/selectors';
 import styled from 'styled-components';
@@ -16,7 +17,7 @@ const StyledSidebar = styled.div(
     width: 140,
   },
   ({ theme }) => ({
-    background: theme.colors.background.dark,
+    background: theme.colors.background.medium,
     boxShadow: `inset -2px 0 0 0 ${theme.colors.accent}`,
   }),
 );
@@ -26,6 +27,7 @@ const Sidebar: FC<{ remoteVideoPlayer: RefObject<HTMLVideoElement> }> = ({
   children,
 }) => {
   const { l10n } = useLocalization();
+  const { nextTheme } = useTheme();
   const users = useSelector(usersSelector);
   const { peerConnection, socket } = useContext(SocketContext);
   const [callUser] = useSocket(remoteVideoPlayer, peerConnection, socket);
@@ -43,7 +45,7 @@ const Sidebar: FC<{ remoteVideoPlayer: RefObject<HTMLVideoElement> }> = ({
 
   return (
     <StyledSidebar>
-      <Title text="@OKU" />
+      <Title text="@OKU" onClick={nextTheme} />
       <p>
         <strong>{l10n.getString('online-users')}</strong>:<br />
         {users.length > 0 ? (
