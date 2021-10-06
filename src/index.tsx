@@ -7,20 +7,18 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { AppLocalizationProvider } from './locale/l10n';
 import { SocketProvider } from './providers/SocketProvider';
-import { ThemeProvider } from '@emotion/react/macro';
+import { DefaultTheme, ThemeProvider } from 'styled-components';
+import { main, Themes } from './themes';
 
-const theme = {
-  colors: {
-    text: '#EEEEEE',
-    accent: '#FFD369',
-    background: '#222831',
-    shade: '#393E46',
-  },
+const theme: { [name: string]: DefaultTheme } = {
+  main,
 };
+
+const selectedTheme = Themes.MAIN;
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme[selectedTheme]}>
       <AppLocalizationProvider>
         <Provider store={store}>
           <SocketProvider>

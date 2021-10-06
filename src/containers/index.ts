@@ -1,2 +1,2 @@
 export { default as Login } from './Login'
-export { default as VideoChat } from './VideoChat'
+export { default as Chat } from './Chat'

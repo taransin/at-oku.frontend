@@ -5,14 +5,25 @@ import { RootState } from 'src/store/store';
 import { useLocalization } from '@fluent/react';
 import { Rnd } from 'react-rnd';
 import { SocketContext } from 'src/providers/SocketProvider';
-import { css } from '@emotion/react/macro';
+import styled from 'styled-components';
 
-const MainVideo = css({
+const StyledChat = styled.div({
   height: '100%',
   width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
 });
+const StyledMainVideo = styled.video(
+  {
+    height: '100%',
+    width: '100%',
+  },
+  ({ theme }) => ({
+    background: theme.colors.shade,
+  }),
+);
 
-function VideoChat() {
+function Chat() {
   const { l10n } = useLocalization();
   const videoPlayer = useRef<HTMLVideoElement>(null);
   const remoteVideoPlayer = useRef<HTMLVideoElement>(null);
@@ -54,55 +65,53 @@ function VideoChat() {
   }, [videoPlayer, setVideoStream]);
 
   return (
-    <div className="App">
+    <StyledChat>
       <div>
         <div>
-          <div>
-            <h6>@OKU</h6>
-          </div>
-        </div>
-        <div>
-          <div>
-            <h5>{l10n.getString('online-users')}:</h5>
-            <ul>
-              {users.map((user, key) => (
-                <li key={key} onClick={() => callUser(user.id)}>
-                  <p>{user.username}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <div>
-          <div>
-            <video className={MainVideo} autoPlay ref={remoteVideoPlayer} />
-            <Rnd
-              default={{
-                x: 150,
-                y: 205,
-                width: 220,
-                height: 220,
-              }}
-              minWidth={128}
-              minHeight={128}
-              bounds="parent"
-            >
-              <div>
-                <div>
-                  <video
-                    autoPlay
-                    muted
-                    ref={videoPlayer}
-                    style={{ height: '100%', width: '100%', padding: 5 }}
-                  />
-                </div>
-              </div>
-            </Rnd>
-          </div>
+          <h6>@OKU</h6>
         </div>
       </div>
-    </div>
+      <div>
+        <div>
+          <h5>{l10n.getString('online-users')}:</h5>
+          <ul>
+            {users.map((user, key) => (
+              <li key={key} onClick={() => callUser(user.id)}>
+                <p>{user.username}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div>
+          <StyledMainVideo autoPlay ref={remoteVideoPlayer} />
+          <Rnd
+            default={{
+              x: 150,
+              y: 205,
+              width: 220,
+              height: 220,
+            }}
+            minWidth={128}
+            minHeight={128}
+            bounds="parent"
+          >
+            <div>
+              <div>
+                <video
+                  autoPlay
+                  muted
+                  ref={videoPlayer}
+                  style={{ height: '100%', width: '100%', padding: 5 }}
+                />
+              </div>
+            </div>
+          </Rnd>
+        </div>
+      </div>
+    </StyledChat>
   );
 }
 
-export default VideoChat;
+export default Chat;

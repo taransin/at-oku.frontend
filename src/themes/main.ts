@@ -1,0 +1,11 @@
+const main = {
+    colors: {
+        text: '#EEEEEE',
+        textOnAccent: '#393E46',
+        accent: '#FFD369',
+        background: '#222831',
+        shade: '#393E46',
+    },
+}
+
+export default main;
