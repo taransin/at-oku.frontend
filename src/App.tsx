@@ -1,63 +1,36 @@
-import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Home, VideoChat } from './containers';
+import { Login, Atoku } from './containers';
 import { useSelector } from 'react-redux';
-import { RootState } from './store/store';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { themeSelector, usernameSelector } from './store/selectors';
+import styled, { ThemeProvider } from 'styled-components';
+import { useEffect, useState } from 'react';
 
-const SafeRoute = (props: any) => {
-  const username = useSelector(
-    (state: RootState) => state.application.username,
-  );
-  if (!username) return <Route {...props} component={Home} />;
-  return <Route {...props} />;
-};
+const StyledBackground = styled.div(
+  {
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ({ theme }) => ({
+    background: theme.colors.background.dark,
+    color: theme.colors.text,
+  }),
+);
 
 function App() {
-  const customTheme = createTheme({
-    palette: {
-      mode: 'dark',
-      primary: {
-        light: '#afa',
-        main: '#99e5df',
-        dark: '#afa',
-        contrastText: '#fff',
-      },
-      secondary: {
-        light: '#afa',
-        main: '#f11',
-        dark: '#faf',
-        contrastText: '#faf',
-      },
-    },
-    components: {
-      // Name of the component
-      MuiButton: {
-        styleOverrides: {
-          // Name of the slot
-          root: {
-            // Some CSS
-            fontSize: '1rem',
-            backgroundColor: '#357f78',
-            ':hover': {
-              backgroundColor: '#1a746b',
-            },
-            color: 'white',
-            outlineColor: 'white',
-          },
-        },
-      },
-    },
-  });
+  const theme = useSelector(themeSelector);
+  const username = useSelector(usernameSelector);
 
+  const [currentTheme, setCurrentTheme] = useState(theme);
+  useEffect(() => {
+    console.log(theme);
+    setCurrentTheme(theme);
+  }, [theme, setCurrentTheme]);
   return (
-    <ThemeProvider theme={customTheme}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <SafeRoute path="/video" component={VideoChat} />
-        </Switch>
-      </BrowserRouter>
+    <ThemeProvider theme={currentTheme}>
+      <StyledBackground>{!username ? <Login /> : <Atoku />}</StyledBackground>
     </ThemeProvider>
   );
 }
